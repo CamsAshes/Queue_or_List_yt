@@ -1,5 +1,7 @@
 # Queue_or_List_yt
 
+***DO NOT USE YET, STILL IN TESTING PHASE***
+
 ## What is this?
 
 This is a collection of JavaScript files designed to be loaded via a browser bookmarklet. When activated on a YouTube channel's video list page or a playlist page, it:
