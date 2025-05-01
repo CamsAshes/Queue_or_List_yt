@@ -1,0 +1,87 @@
+// Loader Script (Before Minification/Encoding)
+javascript:(function() {
+    const SCRIPT_ID_PREFIX = 'yt-bulk-action-script-';
+    const NAMESPACE = 'ytBulkActions'; // Match the namespace used in the scripts
+    const SCRIPT_URLS = [
+        'YOUR_RAW_URL_FOR_utils.js',
+        'YOUR_RAW_URL_FOR_youtube_dom.js',
+        'YOUR_RAW_URL_FOR_youtube_actions.js',
+        'YOUR_RAW_URL_FOR_modal_ui.js',
+        'YOUR_RAW_URL_FOR_main.js'
+        // Add more URLs here if you split further
+    ];
+
+    // Check if already loaded/running
+    if (window[NAMESPACE] && window[NAMESPACE].isRunning) {
+        console.warn('YT Bulk Actions script is already running.');
+        alert('YT Bulk Actions script is already running or the modal is open.');
+        return;
+    }
+     // Clear previous modal if somehow stuck
+     const existingModal = document.getElementById('yt-bulk-action-modal');
+     const existingOverlay = document.getElementById('yt-bulk-action-overlay');
+     if(existingModal) existingModal.remove();
+     if(existingOverlay) existingOverlay.remove();
+     // Clear previous scripts just in case of partial load failure
+     SCRIPT_URLS.forEach((url, index) => {
+        const scriptId = SCRIPT_ID_PREFIX + index;
+        document.getElementById(scriptId)?.remove();
+     });
+
+
+    console.log('YT Bulk Actions: Loader started.');
+    let loadedCount = 0;
+
+    function loadScript(index) {
+        if (index >= SCRIPT_URLS.length) {
+            // All scripts loaded, initialize
+            console.log('YT Bulk Actions: All scripts loaded. Initializing...');
+            if (window[NAMESPACE] && typeof window[NAMESPACE].init === 'function') {
+                try {
+                 window[NAMESPACE].init();
+                } catch (initError) {
+                     console.error("Error during initialization:", initError);
+                     alert("Error during script initialization. Check console.");
+                }
+            } else {
+                console.error('YT Bulk Actions: Initialization function (window.'+NAMESPACE+'.init) not found!');
+                 alert('YT Bulk Actions: Failed to find initialization function after loading scripts.');
+            }
+            return;
+        }
+
+        const url = SCRIPT_URLS[index];
+        const scriptId = SCRIPT_ID_PREFIX + index;
+
+        // Skip if element with same ID already exists (e.g., from previous failed attempt)
+        if (document.getElementById(scriptId)) {
+             console.warn(`Script element ${scriptId} already exists, skipping reload.`);
+             loadScript(index + 1); // Try loading next one
+             return;
+         }
+
+
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.src = url + '?ts=' + Date.now(); // Cache busting
+        script.async = false; // Try to enforce some order, though Promises are better
+
+        script.onload = () => {
+            console.log(`Loaded: ${url}`);
+            loadedCount++;
+            loadScript(index + 1); // Load next script
+        };
+
+        script.onerror = () => {
+            console.error(`Failed to load script: ${url}`);
+            alert(`Failed to load a required script file: ${url.split('/').pop()}. Cannot continue.`);
+             // Clean up potentially loaded scripts? Or leave for debug? Let's leave them.
+        };
+
+        document.head.appendChild(script);
+    }
+
+    // Start loading the first script
+    loadScript(0);
+
+})();
