@@ -24,7 +24,7 @@ The tool uses a **loader bookmarklet** approach because the full script is too l
 **1. Host the Files:**
 
 *   You need to host the `.js` files from this repository on a publicly accessible HTTPS server.
-*   **Recommended:** Fork this repository, enable GitHub Pages for your fork (Settings -> Pages -> Deploy from a branch), and use the resulting `{https://<your-username>.github.io/<your-repo-name>/Files/} + {FileName.js}` URLs.
+*   **Recommended:** Fork this repository, enable GitHub Pages for your fork (Settings -> Pages -> Deploy from a branch), and use the resulting `{https://<your-username>.github.io/<your-repo-name>/} + {Files/FileName.js}` URLs.
 *   Alternatively, you can use the "Raw" URLs from GitHub, but GitHub Pages is generally more reliable for this purpose.
 
 **2. Create the Loader Bookmarklet:**
