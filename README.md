@@ -37,9 +37,9 @@ The tool uses a **loader bookmarklet** approach because the full script is too l
 **3. Run the Tool:**
 
 *   Navigate to a YouTube channel's video page (e.g., `youtube.com/@ChannelName/videos`) or a specific playlist page in your browser.
-*      **I recommend going to the channel's FULL UPLOADS page by making a NEW bookmarklet (navigate to channel page, refresh for good measure, then click the bookmarklet):
-*        javascript:void((function(){var channelID = ytInitialData.metadata.channelMetadataRenderer.externalId;var playlistURL = "https://www.youtube.com/playlist?list=UU" + channelID.substring(2);window.location.href = playlistURL;})());
-  
+   **I recommend going to the channel's FULL UPLOADS page by making a NEW bookmarklet
+     (navigate to channel page, refresh for good measure, then click the bookmarklet):
+*     javascript:void((function(){var channelID = ytInitialData.metadata.channelMetadataRenderer.externalId;var playlistURL = "https://www.youtube.com/playlist?list=UU" + channelID.substring(2);window.location.href = playlistURL;})());
 *   Wait for the initial videos to load.
 *   Click the main loader bookmarklet you created.
 *   The script will load, start scrolling the page down, scrape the videos, and then display the modal interface.
